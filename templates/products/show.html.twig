@@ -2,32 +2,31 @@
  {% block container %}
 
 
-     <h1>mes  produits {{products|length}} <a href="{{path('app_product_new') }}" class="btn btn-sm btn-success">Retour aux products</a> </h1>
-
-
+     <h1>Mon produit </h1>
 
 
 
      <div class="row">
-        {% for product in products %}
+      
             <div class="col-4 mt-4">
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Nom: {{product.name}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">Prix:{{product.price}}£</h6>
-                            {% if product.overPrice  %} 
+                        <p class="card-text">Description: {{product.description}}</p>
+                           {% if product.overPrice  %} 
                             <p class="text-danger">
                                Le prix semble abordable
                             </p>
                            {% else %}
                              <p class="text-success">Le prix semble adorable</p>
                            {% endif %}
-                        <p class="card-text">Description: {{product.description}}</p>
-                        <a href="{{path('app_product_show',{id:product.id})}}" class="card-link">Afficher le produit</a>
+
+                        <a href="{{path('app_product')}}" class="card-link">Afficher les produits</a>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+    
      </div>
 
 {% endblock %}
