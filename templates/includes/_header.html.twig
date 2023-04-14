@@ -17,6 +17,13 @@
       <li class="nav-item">
         <a href="/product" class="nav-link">Mes produits </a>
       </li>
+   
+      {% if app.user  %}
+         <div class="nav-item nav-link" href="{{path('logout')}}">Se déconnecter</div>
+      {% else %}
+         <a href="{{path('login')}}" class="nav-link">Connexion </a>
+      {% endif %}
+      
 
     </ul>
   </div>

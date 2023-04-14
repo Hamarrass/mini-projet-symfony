@@ -4,9 +4,15 @@
 
      <h1>mes  produits {{products|length}} <a href="{{path('app_product_new') }}" class="btn btn-sm btn-success">Retour aux products</a> </h1>
 
+        {% for successMessage in app.flashes('success') %}
+                
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-success">  {{ successMessage|raw }} </div>
+                </div>
+            </div>
 
-
-
+        {% endfor %}
 
      <div class="row">
         {% for product in products %}

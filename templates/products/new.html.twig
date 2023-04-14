@@ -3,9 +3,36 @@
 
 
 
-
+<h1>Formulaire de creation d'un produit</h1>
      <div class="row">
-       hellw hassan hamarrass
+         {{form_start(form)}}
+           
+            <div class="col-md-6 mb-3">
+                 <div class="form-group">
+                      {{form_widget(form.name) }}
+                 </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                 <div class="form-group">
+                      {{form_widget(form.price) }}
+                 </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                 <div class="form-group">
+                      {{form_widget(form.description) }}
+                 </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                 <div class="form-group">
+                   <button type="submit" class="btn-primary">Valider la creation</button>           
+                 </div>
+            </div>
+
+         {{form_end(form)}}
+
+
      </div>
+
+
 
 {% endblock %}
