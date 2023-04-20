@@ -11,7 +11,7 @@ class Calculateur
     public function __construct(LoggerInterface $logger, float $marge)
     {
           $this->logger = $logger ;
-          $this->marge = $marge ;
+         $this->marge = $marge ;
     }
 
     public function calculTTC(float $prixht) : float{

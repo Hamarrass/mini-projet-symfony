@@ -3,6 +3,7 @@
 namespace App\Controller ;
 
 use App\Tax\Calculateur;
+use Cocur\Slugify\Slugify;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,10 +15,7 @@ class MainController extends AbstractController {
 
     #[Route('/',name:"app_main")]
 
-    public function index (Calculateur $calculator,LoggerInterface $logger){
-    
-            dd($calculator->calculTTC(150));
-
+    public function index (Calculateur $calculator,LoggerInterface $logger , Slugify $slugify){
         $logger->info('une demande de prix TTC vient d\'çetre effectué, !');
        return  $this->render('main.html.twig');
 
@@ -27,8 +25,20 @@ class MainController extends AbstractController {
     public function contact(){
     
  
-        return $this->render('contact.html.twig');
+        return $this->render('test.html.twig',[
+            "prenom"=>"Hassane",
+            "age" => 15
+        ]);
+    } 
 
+    #[Route('/layout',name:'app_layouts')]
+    public function tutoLayout(){
+        return $this->render('tuto-twig/home.html.twig');
+    }
+
+    #[Route('/layout-disc',name:'layout-disc')]
+    public function discover(){
+        return $this->render('tuto-twig/discover.html.twig');
     }
 
 }
