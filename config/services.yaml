@@ -27,4 +27,12 @@ services:
         arguments:
           $marge: 50
 
-    Cocur\Slugify\Slugify: ~      
+    Cocur\Slugify\Slugify: ~    
+
+    App\Doctrine\Listener\ProductSlugListener:
+         #cette commande il cible tous  les entities et à chaque le service faire un appel
+         #tags: [{name: 'doctrine.event_listener', event: prePersist}]
+
+         #cette commande il cible l'entity 
+         tags: [{name: 'doctrine.orm.entity_listener', event: prePersist, entity: App\Entity\Product}]
+

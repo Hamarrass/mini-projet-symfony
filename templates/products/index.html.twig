@@ -29,7 +29,9 @@
                              <p class="text-success">Le prix semble adorable</p>
                            {% endif %}
                         <p class="card-text">Description: {{product.description}}</p>
-                        <a href="{{path('app_product_show',{id:product.id})}}" class="card-link">Afficher le produit</a>
+                        <a href="{{path('app_product_show',{slug:product.slug})}}" class="card-link">Afficher le produit</a>
+                        {# <a href="{{path('/product/{slug}',{slug:product.slug})}}" class="card-link">Afficher le produit</a> #}
+
                     </div>
                 </div>
             </div>

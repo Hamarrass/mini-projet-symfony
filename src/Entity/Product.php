@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
+use DateTime;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
@@ -24,6 +28,16 @@ class Product
 
     #[ORM\Column]
     private ?bool $valid = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTime $createdAt = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+  
+
+
 
     public function getId(): ?int
     {
@@ -81,4 +95,46 @@ class Product
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+ 
+    #[ORM\PrePersist]
+    public function prePersist() 
+    {
+        
+             
+        if(empty($this->createdAt)){
+
+             $this->createdAt = new DateTime('now');
+        }
+
+       $this->price = $this->price * 1.2 ;
+
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+ 
+
+
 }

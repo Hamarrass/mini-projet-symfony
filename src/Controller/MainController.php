@@ -2,8 +2,13 @@
 
 namespace App\Controller ;
 
+use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Repository\WalletRepository;
 use App\Tax\Calculateur;
 use Cocur\Slugify\Slugify;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -15,9 +20,14 @@ class MainController extends AbstractController {
 
     #[Route('/',name:"app_main")]
 
-    public function index (Calculateur $calculator,LoggerInterface $logger , Slugify $slugify){
-        $logger->info('une demande de prix TTC vient d\'çetre effectué, !');
-       return  $this->render('main.html.twig');
+    public function index (WalletRepository $walletRepository, EntityManagerInterface $entityManager){
+          
+      $wallet = $walletRepository->find(1);
+      $wallet->removeCredit(300);
+      $entityManager->flush();
+
+      return $this->render('main.html.twig');
+    
 
     }
 

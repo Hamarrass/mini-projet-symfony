@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use Cocur\Slugify\Slugify;
 use Container0t4vzXX\EntityManagerGhost51e8656;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,6 +17,7 @@ class ProductController extends  abstractController
 public  function index(EntityManagerInterface $entityManager){
       
      $products = $entityManager->getrepository(Product::class)->findBy(['valid'=>true]);
+
   
     return $this->render('products/index.html.twig',[
         'products'=>$products
@@ -23,7 +25,7 @@ public  function index(EntityManagerInterface $entityManager){
 }
 
 #[Route('/product/new',name:'app_product_new')]
-public function new (Request $request, EntityManagerInterface $manager){
+public function new (Request $request, EntityManagerInterface $manager,Slugify $slug){
     
     
     $product = new Product();
@@ -33,7 +35,13 @@ public function new (Request $request, EntityManagerInterface $manager){
     if($form->isSubmitted() && $form->isValid()){
        
         $product->setValid(true);
+
+        // on a replacer ça avec un listner
+        // $product->setSlug($slug->slugify($product->getName()));
+
+
         $manager->persist($product);
+
         $manager->flush();
 
         $this->addFlash('success',"Félicitation vous avez crée le produit :".$product->getName()) ;
@@ -46,11 +54,11 @@ public function new (Request $request, EntityManagerInterface $manager){
 
 
 
-#[Route('product/{id}', name:"app_product_show")]
+#[Route('product/{slug}', name:"app_product_show")]
 
-public function show($id, EntityManagerInterface  $entityManager){
+public function show($slug, EntityManagerInterface  $entityManager){
 
-       $product = $entityManager->getRepository(Product::class)->findOneBy(['id'=>$id]);
+       $product = $entityManager->getRepository(Product::class)->findOneBy(['slug'=>$slug]);
        if(is_null($product)){
           return $this->redirectToRoute('app_product');
        }
