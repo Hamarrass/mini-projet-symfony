@@ -5,11 +5,14 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use Cocur\Slugify\Slugify;
-use Container0t4vzXX\EntityManagerGhost51e8656;
+use Symfony\Component\Mime\Email;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 class ProductController extends  abstractController
 {
@@ -25,15 +28,29 @@ public  function index(EntityManagerInterface $entityManager){
 }
 
 #[Route('/product/new',name:'app_product_new')]
-public function new (Request $request, EntityManagerInterface $manager,Slugify $slug){
-    
+public function new (Request $request, EntityManagerInterface $manager,Slugify $slug,MailerInterface $mailer){
     
     $product = new Product();
     $form =  $this->createForm(ProductType::class,$product);
     $form->handleRequest($request);
 
     if($form->isSubmitted() && $form->isValid()){
-       
+        
+     
+    $email = (new Email())
+    ->from('from@example.com')
+    ->to('to@example.com')
+    //->cc('cc@example.com')
+    //->bcc('bcc@example.com')
+    //->replyTo('fabien@example.com')
+    //->priority(Email::PRIORITY_HIGH)
+    ->subject('Time for Symfony Mailer!')
+    ->text('Sending emails is fun again!')
+    ->html('<p>See Twig integration for better HTML integration!</p>');
+    
+    $mailer->send($email);
+
+return new Response('Email sent ');
         $product->setValid(true);
 
         // on a replacer ça avec un listner
@@ -45,6 +62,25 @@ public function new (Request $request, EntityManagerInterface $manager,Slugify $
         $manager->flush();
 
         $this->addFlash('success',"Félicitation vous avez crée le produit :".$product->getName()) ;
+
+        $email = (new Email())
+            ->from('hello@example.com')
+            ->to('you@example.com')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('Time for Symfony Mailer!')
+            ->text('Sending emails is fun again!')
+            ->html('<p>See Twig integration for better HTML integration!</p>');
+    
+        $mailer->send($email);
+
+     
+
+
+        
+
         return $this->redirectToRoute('app_product');
     }
 
